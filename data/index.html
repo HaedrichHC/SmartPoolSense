@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Smart Pool Sense</title>
+		<link rel="stylesheet" href="./css/style.css">
+  	</head>
+  	<body>
+    	<div class="main-container">
+    		<header class="u-mb-md u-flex-center u-gap-sm">
+    	    	<img src="./img/Logo.svg" alt="Logo">
+    	    	<h1>Smart Pool Sense</h1>
+			</header>
+		  	<!-- Tab menu -->
+		  	<nav class="u-mb-md u-flex-center">
+				<button class="tab-links" id="tab-link-home">Home</button>
+				<button class="tab-links" id="tab-link-calibration">Calibration</button>
+			</nav>
+			<!-- Home -->
+    		<section class="tab-content" id="tab-content-home" > 
+				<div class="card u-flex-col-center">
+    	    		<div class="data-item u-grid-c-three u-mb-md">
+						<div class="u-font-s-w u-flex-right">
+							Temperature:
+						</div>
+						<div class="u-font-s-w u-flex-center">
+							<span id="temp">00.00</span>
+						</div>
+    	    		    <div class="u-font-s-w"> 
+							&deg;C
+						</div>
+					</div>
+					<div class="data-item u-grid-c-three">
+						<div class="u-font-s-w u-flex-right">
+							pH-value:
+						</div>
+						<div class="u-font-s-w u-flex-center">
+							<span id="ph">0.00</span>
+						</div>
+						<div class="u-font-s-w">
+							-
+						</div>
+					</div>
+		  		</div>
+		  	</section>
+		  	<!-- Calibration -->
+		  	<section class="tab-content" id="tab-content-calibration">
+				<!-- Start Stop Calibration -->
+				<div class="u-grid-c-two u-mb-md">
+					<div class="u-flex-center">
+						<button class="button-basic" id="start-stop-calib">Start Calibration</button>
+					</div>
+					<div class="u-flex-center">
+						<output id="status-calib">Calibration is stopped</output>
+					</div>
+				</div>
+				<!-- Temperature calibration -->
+				<div class="card u-mb-md">
+					<h3 class="u-flex-center u-mb-md">Temperature calibration</h3>
+					<!-- Stepper -->
+					<div class="u-flex-center">	
+						<div class="u-grid-c-two u-mb-md u-width">
+							<div class="u-flex-center">
+								<div class="step u-flex-center active" id="step-1">1</div>
+							</div>
+							<div class="u-flex-center">
+								<div class="step u-flex-center" id="step-2">2</div>
+							</div>
+						</div>
+					</div>
+					<!-- Status calibration -->
+					<div class="u-flex-center u-mb-sm">
+						<div class="data-item u-flex-space">
+							<div  class="u-font-s-w">
+								Status calibration:
+							</div>
+							<div>
+								<output class="status-sensor" id="status-temp">Sensor calibration is stopped</output>
+							</div>
+							<div>
+								<div class="traffic-light unstable" id="light-temp"></div>
+							</div>
+						</div>
+					</div>
+					<!-- Step content 1 for temp calibration -->
+					<div class="step-content active" id="step-content-1">
+						<div class="data-item u-grid-c-four u-mb-sm">
+							<div class="u-flex-right u-font-s-w">
+								Reference Temp:
+							</div>
+							<div class="u-flex-right">
+								<input class="input-value" type="number" id="temp-1-value" step="0.01" placeholder="00.00" disabled>
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								&deg;C
+							</div>
+							<div class="u-flex-center u-grid-r-s">
+								<button class="set-button button-basic" id="set-temp-1" disabled>Set</button>
+							</div>
+							<div class="u-flex-right u-font-s-w">
+								Raw value:
+							</div>
+							<div class="u-flex-center u-pd-sm">
+								<span class="input-raw" id="temp-1-raw">0000</span>
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								mV
+							</div>
+						</div>
+					</div>
+					<!-- Step content 2 for temp calibration -->
+					<div class="step-content" id="step-content-2">
+						<div class="data-item u-grid-c-four u-mb-sm">
+							<div class="u-font-s-w u-flex-right">
+								Reference Temp:
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								<input class="input-value" type="number" id="temp-2-value" step="0.01" placeholder="00.00" disabled>
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								&deg;C
+							</div>
+							<div class="u-flex-center u-grid-r-s">
+								<button class="set-button button-basic" id="set-temp-2" disabled>Set</button>
+							</div>
+							<div class="u-font-s-w u-flex-right">
+								Raw value:
+							</div>
+							<div class="u-flex-center u-pd-sm">
+								<span class="input-raw" id="temp-2-raw">0000</span>
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								mV
+							</div>
+						</div>
+					</div>
+					<!-- Save-/next-button for temp calibration-->
+					<div class="u-flex-center u-mb-sm">
+						<div class="u-grid-c-three u-width">
+							<div>
+							</div>
+							<div class="u-flex-center">
+								<button class="save-button button-basic" id="save-temp" disabled>Save to ESP</button>
+							</div>
+							<div class="u-flex-right">
+								<button class="next-button button-basic" id="next-temp-step" disabled>Next step</button>
+							</div>
+						</div>
+					</div>
+				<!-- Reset-button for temp calibration-->
+				<div class="u-flex-center">
+					<button class="reset-button button-basic" id="reset-temp" disabled>Reset Calibration</button>
+				</div>
+				</div>
+				<!-- pH-value calibration -->
+				<div class="card">		
+					<div class="u-flex-col-center">
+						<h3 class="u-flex-center u-mb-md">pH-value calibration</h3>
+						<!-- Status calibration -->
+						<div class="data-item u-mb-sm u-flex-space">
+							<div  class="u-font-s-w">
+								Status calibration:
+							</div>
+							<div>
+								<output class="status-sensor" id="status-ph">Sensor calibration is stopped</output>
+							</div>
+							<div>
+								<div class="traffic-light unstable" id="light-ph"></div>
+							</div>
+						</div>
+						<!-- Content -->
+						<div class="data-item u-grid-c-four u-mb-sm">
+							<div class="u-font-s-w u-flex-right">
+								Buffer solution:
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								<select id="ph-1-value" disabled>
+									<option value="7.00">pH 7.00</option>
+									<option value="4.00">pH 4.00</option>
+									<option value="10.00">pH 10.00</option>
+								</select>
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								-
+							</div>
+							<div class="u-font-s-w u-flex-center u-grid-r-s">
+								<button class="set-button button-basic" id="set-ph-1" disabled>Set</button>
+							</div>
+							<div class="u-font-s-w u-flex-right">
+								Raw value:
+							</div>
+							<div class="u-flex-center u-pd-sm">
+								<span class="input-raw" id="ph-1-raw">0000</span>
+							</div>
+							<div class="u-font-s-w u-flex-center">
+								mV
+							</div>
+						</div>
+					</div>
+					<!-- Save-button for pH-value calibration-->
+					<div class="u-flex-center u-mb-sm">
+						<button class="save-button button-basic" id="save-ph" disabled>Save to ESP</button>
+					</div>
+					<!-- Reset-button for pH-value calibration-->
+					<div class="u-flex-center">
+						<button class="reset-button button-basic" id="reset-ph" disabled>Reset Calibration</button>
+					</div>
+				</div>
+			</section>
+		</div>
+  	</body>
+  	<script src="./js/script.js"></script>
+</html>
