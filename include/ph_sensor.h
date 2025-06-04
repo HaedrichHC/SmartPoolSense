@@ -2,8 +2,8 @@
 #define PH_SENSOR_H
 
 #include "interfaces/adc_interface.h"
+#include "interfaces/calib_storage_interface.h"
 #include "configs/config.h"
-#include "calib_storage.h"
 
 
 class PhSensor {
@@ -13,7 +13,7 @@ class PhSensor {
 			uint16_t volt_ref = 0;
 		};
 
-		PhSensor(ADCInterface& adc, CalibStorage& calib_storage);
+		PhSensor(ADCInterface& adc, CalibStorageInterface& calib_storage);
 
 		~PhSensor();
 
@@ -31,7 +31,7 @@ class PhSensor {
 
 	private:
 		ADCInterface& _adc;
-		CalibStorage& _calib_storage;
+		CalibStorageInterface& _calib_storage;
 		uint8_t _adc_channel = 0;
 		uint16_t _volt_act = 0;
 		float _ph_act = 0.0;

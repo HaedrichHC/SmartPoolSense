@@ -1,6 +1,6 @@
 #include "ph_sensor.h"
 
-PhSensor::PhSensor(ADCInterface& adc, CalibStorage& calib_storage)
+PhSensor::PhSensor(ADCInterface& adc, CalibStorageInterface& calib_storage)
     : _adc(adc), _calib_storage(calib_storage) {};
 
 PhSensor::~PhSensor() {};

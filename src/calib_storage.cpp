@@ -28,11 +28,3 @@ void CalibStorage::set_calib_raw_value(const char* name, uint16_t value) {
 uint16_t CalibStorage::get_calib_raw_value(const char* name, uint16_t default_value) {
     return _prefs.getUShort(name, default_value);
 }
-
-bool CalibStorage::clear_all() {
-	return _prefs.clear();
-}
-
-bool CalibStorage::remove_calib_value(const char* name) {
-    return _prefs.remove(name);
-}

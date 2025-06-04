@@ -1,7 +1,7 @@
 #include "temp_sensor.h"
 
 
-TempSensor::TempSensor(ADCInterface& adc, CalibStorage& calib_storage)
+TempSensor::TempSensor(ADCInterface& adc, CalibStorageInterface& calib_storage)
 	: _adc(adc), _calib_storage(calib_storage) {}
 
 TempSensor::~TempSensor() {}
