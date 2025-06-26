@@ -1,27 +1,28 @@
-#include "drivers/network_esp8266.h"
-#include "drivers/adc_mcp3008.h"
-#include "esp8266_client_id.h"
-#include "state_machine.h"
-#include "mqtt_handler.h"
-#include "ota_update.h"
-#include "ph_sensor.h"
-#include "temp_sensor.h"
-#include "web_server.h"
-#include "calib_storage.h"
+#include <network_connection.h>
+#include <ad_converter.h>
+#include <client_id.h>
+#include <state_machine.h>
+#include <mqtt_handler.h>
+#include <ota_update.h>
+#include <ph_sensor.h>
+#include <temp_sensor.h>
+#include <web_server.h>
+#include <calib_storage.h>
 
-#include "configs/config.h"
-#include "configs/secret.h"
+#include <config.h>
+#include <secret.h>
 
 
 CalibStorage calib_storage(STORAGE_PATH);
-AdcMCP3008 ad_converter;
+AdConverter ad_converter;
 TempSensor temp_sensor(ad_converter, calib_storage);
 PhSensor ph_sensor(ad_converter, calib_storage);
-NetworkESP8266 network;
+NetworkConnection network;
 MqttHandler mqtt_handler;
 StateMachine state_machine(mqtt_handler, ph_sensor, temp_sensor);
 WebServer web_server(state_machine);
 OTAupdate ota_update;
+ClientId client_id;
 
 
 void setup() {
@@ -29,8 +30,9 @@ void setup() {
 	SPI.begin();
 
 	ad_converter.begin(ADC_CS_PIN);
+	client_id.generate(MQTT_CLIENT_ID);
 	network.connect(WIFI_SSID, WIFI_PASSWORD);
-	mqtt_handler.begin(&network, MQTT_SERVER, MQTT_PORT, client_id.generate());
+	mqtt_handler.begin(&network, MQTT_SERVER, MQTT_PORT, client_id.get_id());
 	
 	ota_update.enable_callbacks();
 	ota_update.begin(OTA_HOSTNAME, OTA_PASSWORD);
