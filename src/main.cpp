@@ -1,6 +1,5 @@
 #include <network_connection.h>
 #include <ad_converter.h>
-#include <client_id.h>
 #include <state_machine.h>
 #include <mqtt_handler.h>
 #include <ota_update.h>
@@ -12,7 +11,6 @@
 #include <config.h>
 #include <secret.h>
 
-
 CalibStorage calib_storage(STORAGE_PATH);
 AdConverter ad_converter;
 TempSensor temp_sensor(ad_converter, calib_storage);
@@ -22,17 +20,15 @@ MqttHandler mqtt_handler;
 StateMachine state_machine(mqtt_handler, ph_sensor, temp_sensor);
 WebServer web_server(state_machine);
 OTAupdate ota_update;
-ClientId client_id;
 
-
-void setup() {
+void setup() 
+{
 	Serial.begin(115200);
 	SPI.begin();
 
 	ad_converter.begin(ADC_CS_PIN);
-	client_id.generate(MQTT_CLIENT_ID);
 	network.connect(WIFI_SSID, WIFI_PASSWORD);
-	mqtt_handler.begin(&network, MQTT_SERVER, MQTT_PORT, client_id.get_id());
+	mqtt_handler.begin(&network, MQTT_SERVER, MQTT_PORT, ESP.getChipId());
 	
 	ota_update.enable_callbacks();
 	ota_update.begin(OTA_HOSTNAME, OTA_PASSWORD);
@@ -44,14 +40,13 @@ void setup() {
 	temp_sensor.begin(ADC_TEMP_CH);
 
 	web_server.begin();
-
 }
 
 
-void loop() {
+void loop() 
+{
 
 	web_server.handleClient();
 	ota_update.handle();
 	state_machine.run();
-	
 }

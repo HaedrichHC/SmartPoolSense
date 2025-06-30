@@ -2,32 +2,35 @@
 #define MQTT_HANDLER_H
 
 #include <network_interface.h>
+#include <config.h>
 #include <PubSubClient.h>
 
-class MqttHandler {
-    public:
+class MqttHandler 
+{
+public:
+    MqttHandler();
 
-        MqttHandler();
+    ~MqttHandler();
 
-        ~MqttHandler();
+    void begin(NetworkInterface *network, const char *server, uint16_t port, uint32_t chip_id);
+        
+	bool connect();
 
-        void begin(NetworkInterface* network, const char* server, uint16_t port, const char* client_id);
+    bool connected();
 
-        bool connect();
+    void publish(const char *topic, const char *payload);
 
-        bool connected();
+    void loop();
 
-        void publish(const char* topic, const char* payload);
+    void setCallback(void (*callback)(char *, byte *, unsigned int));
 
-        void loop();
+	void disconnect();
 
-        void setCallback(void (*callback)(char*, byte*, unsigned int));
+private:
+	const char* _client_id = "";
+	PubSubClient _mqtt_client;
 
-		void disconnect();
-
-    private:
-		  const char* _client_id = "";
-		  PubSubClient _mqtt_client;
+	const char *generate_client_id(uint32_t chip_id);
 };
 
 #endif
