@@ -1,35 +1,36 @@
 #ifndef WEB_SERVER_H
 #define WEB_SERVER_H
 
-#include <ESP8266WebServer.h>
+#include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
 #include <calib_storage.h>
 #include <state_machine_interface.h>
 
-class WebServer {
-	public:
-		explicit WebServer(StateMachineInterface& state_machine);
-		~WebServer();
+class WebServer
+{
+public:
+	explicit WebServer(StateMachineInterface &state_machine);
+	~WebServer();
 
-		void begin();
-		void handleClient();
+	void begin();
+	void handleClient();
 
-	private:
-		ESP8266WebServer _server;
-		StateMachineInterface& _state_machine;
+private:
+	AsyncWebServer _server;
+	StateMachineInterface &_state_machine;
 
-		void handleRoot();
-		void handleData();
-		void handleRawData();
-		void handleCSS();
-		void handleJS();
-		void handleImage();
-		void handleResetTempCalib();
-		void handleResetPHCalib();
-		void handleSetTempCalib();
-		void handleSetPHCalib();
+	void handleRoot(AsyncWebServerRequest *request);
+	void handleData(AsyncWebServerRequest *request);
+	void handleRawData(AsyncWebServerRequest *request);
+	void handleCSS(AsyncWebServerRequest *request);
+	void handleJS(AsyncWebServerRequest *request);
+	void handleImage(AsyncWebServerRequest *request);
+	void handleResetTempCalib(AsyncWebServerRequest *request);
+	void handleResetPhCalib(AsyncWebServerRequest *request);
+	void handleSetTempCalib(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
+	void handleSetPhCalib(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
 };
 
 #endif

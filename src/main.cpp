@@ -21,7 +21,7 @@ StateMachine state_machine(mqtt_handler, ph_sensor, temp_sensor);
 WebServer web_server(state_machine);
 OTAupdate ota_update;
 
-void setup() 
+void setup()
 {
 	Serial.begin(115200);
 	SPI.begin();
@@ -29,7 +29,7 @@ void setup()
 	ad_converter.begin(ADC_CS_PIN);
 	network.connect(WIFI_SSID, WIFI_PASSWORD);
 	mqtt_handler.begin(&network, MQTT_SERVER, MQTT_PORT, ESP.getChipId());
-	
+
 	ota_update.enable_callbacks();
 	ota_update.begin(OTA_HOSTNAME, OTA_PASSWORD);
 
@@ -42,11 +42,8 @@ void setup()
 	web_server.begin();
 }
 
-
-void loop() 
+void loop()
 {
-
-	web_server.handleClient();
 	ota_update.handle();
 	state_machine.run();
 }
