@@ -7,14 +7,16 @@
 #include <temp_sensor.h>
 #include <web_server.h>
 #include <calib_storage.h>
+#include <stability_checker.h>
 
 #include <config.h>
 #include <secret.h>
 
 CalibStorage calib_storage(STORAGE_PATH);
 AdConverter ad_converter;
-TempSensor temp_sensor(ad_converter, calib_storage);
-PhSensor ph_sensor(ad_converter, calib_storage);
+StabilityChecker temp_stability(100, 20), ph_stability(100, 20);
+TempSensor temp_sensor(ad_converter, calib_storage, temp_stability);
+PhSensor ph_sensor(ad_converter, calib_storage, ph_stability);
 NetworkConnection network;
 MqttHandler mqtt_handler;
 StateMachine state_machine(mqtt_handler, ph_sensor, temp_sensor);
