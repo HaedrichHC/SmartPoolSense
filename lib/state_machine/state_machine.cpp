@@ -1,6 +1,6 @@
 #include <state_machine.h>
 
-StateMachine::StateMachine(MqttHandler &mqtt, PhSensor &ph_sensor, TempSensor &temp_sensor)
+StateMachine::StateMachine(MqttInterface &mqtt, PhSensor &ph_sensor, TempSensor &temp_sensor)
 	: _mqtt(mqtt), _ph_sensor(ph_sensor), _temp_sensor(temp_sensor),
 	  _mqtt_payload("") {}
 

@@ -1,8 +1,9 @@
 #ifndef STATE_MACHINE_H
 #define STATE_MACHINE_H
 
+#include <Arduino.h>
 #include <state_machine_interface.h>
-#include <mqtt_handler.h>
+#include <mqtt_interface.h>
 #include <ph_sensor.h>
 #include <temp_sensor.h>
 #include <config.h>
@@ -21,7 +22,7 @@ public:
 		RECONNECT
 	};
 
-	StateMachine(MqttHandler &mqtt, PhSensor &ph_sensor, TempSensor &temp_sensor);
+	StateMachine(MqttInterface &mqtt, PhSensor &ph_sensor, TempSensor &temp_sensor);
 	~StateMachine();
 
 	SensorData get_sensor_data() override;
@@ -35,7 +36,7 @@ public:
 private:
 	State _currentState = State::IDLE;
 
-	MqttHandler &_mqtt;
+	MqttInterface &_mqtt;
 	PhSensor &_ph_sensor;
 	TempSensor &_temp_sensor;
 

@@ -18,7 +18,7 @@ StabilityChecker temp_stability(100, 20), ph_stability(100, 20);
 TempSensor temp_sensor(ad_converter, calib_storage, temp_stability);
 PhSensor ph_sensor(ad_converter, calib_storage, ph_stability);
 NetworkConnection network;
-MqttHandler mqtt_handler;
+MqttHandler mqtt_handler(network);
 StateMachine state_machine(mqtt_handler, ph_sensor, temp_sensor);
 WebServer web_server(state_machine);
 OTAupdate ota_update;
@@ -30,7 +30,7 @@ void setup()
 
 	ad_converter.begin(ADC_CS_PIN);
 	network.connect(WIFI_SSID, WIFI_PASSWORD);
-	mqtt_handler.begin(&network, MQTT_SERVER, MQTT_PORT, ESP.getChipId());
+	mqtt_handler.begin(MQTT_SERVER, MQTT_PORT, ESP.getChipId(), MQTT_CLIENT_ID);
 
 	ota_update.enable_callbacks();
 	ota_update.begin(OTA_HOSTNAME, OTA_PASSWORD);

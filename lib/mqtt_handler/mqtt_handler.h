@@ -1,36 +1,36 @@
 #ifndef MQTT_HANDLER_H
 #define MQTT_HANDLER_H
 
+#include <mqtt_interface.h>
 #include <network_interface.h>
-#include <config.h>
 #include <PubSubClient.h>
 
-class MqttHandler 
+class MqttHandler : public MqttInterface
 {
 public:
-    MqttHandler();
+    MqttHandler(NetworkInterface &network);
 
     ~MqttHandler();
 
-    void begin(NetworkInterface *network, const char *server, uint16_t port, uint32_t chip_id);
-        
-	bool connect();
+    void begin(const char *server, uint16_t port, uint32_t chip_id, const char *client_name) override;
 
-    bool connected();
+    bool connect() override;
 
-    void publish(const char *topic, const char *payload);
+    bool connected() override;
 
-    void loop();
+    void publish(const char *topic, const char *payload) override;
 
-    void setCallback(void (*callback)(char *, byte *, unsigned int));
+    void loop() override;
 
-	void disconnect();
+    void set_callback(void (*callback)(char *, uint8_t *, unsigned int)) override;
+
+    void disconnect() override;
 
 private:
-	const char* _client_id = "";
-	PubSubClient _mqtt_client;
-
-	const char *generate_client_id(uint32_t chip_id);
+    NetworkInterface &_wifi_client;
+    PubSubClient _mqtt_client;
+    const char *_client_id = "";
+    const char *generate_client_id(uint32_t chip_id, const char *client_name);
 };
 
 #endif
