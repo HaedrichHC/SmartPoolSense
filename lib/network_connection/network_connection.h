@@ -7,17 +7,20 @@
 class NetworkConnection : public NetworkInterface
 {
 public:
-    NetworkConnection();
-    ~NetworkConnection();
+	NetworkConnection();
+	~NetworkConnection();
 
-    void connect(const char *ssid, const char *password) override;
+	void connect(const char *ssid, const char *password) override;
 
-    bool isConnected() override;
+	bool isConnected() override;
 
-    Client &getClient() override;
+	Client &getClient() override;
 
 private:
-    WiFiClient _wifiClient;
+	WiFiClient _wifiClient;
+
+	static constexpr uint8_t MAX_TRIES = 5;
+	static constexpr uint8_t WAIT = 2;
 };
 
 #endif
